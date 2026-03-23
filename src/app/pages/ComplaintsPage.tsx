@@ -60,26 +60,26 @@ export function ComplaintsPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12">
+      <div className="min-h-screen bg-gray-50 py-8 sm:py-12">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-lg shadow-md p-8 text-center">
+          <div className="bg-white rounded-lg shadow-md p-6 sm:p-8 text-center">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle2 size={32} className="text-green-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Complaint Submitted Successfully</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Complaint Submitted Successfully</h2>
+            <p className="text-sm sm:text-base text-gray-600 mb-6">
               Your complaint has been received and will be reviewed by our team.
             </p>
             
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 sm:p-6 mb-6">
               <p className="text-sm text-gray-600 mb-2">Your Tracking ID</p>
-              <p className="text-2xl font-bold text-[#0095DA] mb-2">{trackingId}</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xl sm:text-2xl font-bold text-[#0095DA] mb-2 break-all">{trackingId}</p>
+              <p className="text-xs sm:text-sm text-gray-600">
                 Please save this ID to track your complaint status
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <a
                 href="/tracking"
                 className="block w-full bg-[#0095DA] text-white px-6 py-3 rounded-md font-medium hover:bg-[#0077B3] transition-colors"
@@ -110,12 +110,12 @@ export function ComplaintsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-50 py-8 sm:py-12">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Submit a Complaint</h1>
-          <p className="text-gray-600">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Submit a Complaint</h1>
+          <p className="text-sm sm:text-base text-gray-600">
             File a complaint about telecommunications or broadcasting services. We will review and respond within 5 business days.
           </p>
         </div>
@@ -144,10 +144,10 @@ export function ComplaintsPage() {
         )}
 
         {/* Complaint Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 md:p-8 space-y-6">
-          <h2 className="text-xl font-bold text-gray-900">Complaint Details</h2>
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8 space-y-6">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">Complaint Details</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                 Full Name *
@@ -181,7 +181,7 @@ export function ComplaintsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                 Phone Number *

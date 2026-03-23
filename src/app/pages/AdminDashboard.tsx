@@ -89,22 +89,23 @@ export function AdminDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
             <button 
               onClick={loadData}
               disabled={isLoading}
-              className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
             >
               <RefreshCw size={16} className={isLoading ? 'animate-spin' : ''} />
-              Refresh Data
+              <span className="hidden sm:inline">Refresh Data</span>
+              <span className="sm:hidden">Refresh</span>
             </button>
           </div>
-          <p className="text-gray-600">Monitor and manage regulatory activities</p>
+          <p className="text-sm sm:text-base text-gray-600">Monitor and manage regulatory activities</p>
         </div>
 
         {/* Error Alert */}
@@ -115,7 +116,7 @@ export function AdminDashboard() {
         )}
 
         {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
             <div className="flex items-start justify-between mb-4">
               <div>
@@ -267,8 +268,8 @@ export function AdminDashboard() {
             </div>
 
             {/* Filters */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <div className="flex-1 relative">
+            <div className="flex flex-col gap-4 mt-4">
+              <div className="relative">
                 <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
@@ -279,11 +280,11 @@ export function AdminDashboard() {
                 />
               </div>
               
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                  className="flex-1 min-w-[200px] px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
                 >
                   <option value="all">All Status</option>
                   <option value="submitted">Submitted</option>
@@ -296,12 +297,12 @@ export function AdminDashboard() {
                 
                 <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
                   <Filter size={16} />
-                  More
+                  <span className="hidden sm:inline">More</span>
                 </button>
                 
                 <button className="flex items-center gap-2 px-4 py-2 bg-[#003366] text-white rounded-md text-sm font-medium hover:bg-[#004d99]">
                   <Download size={16} />
-                  Export
+                  <span className="hidden sm:inline">Export</span>
                 </button>
               </div>
             </div>

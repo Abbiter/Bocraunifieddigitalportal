@@ -24,16 +24,16 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
-          <Link to="/" className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-2 sm:gap-3">
             <div className="flex items-center gap-1">
               <div className="w-2 h-2 rounded-full bg-[#0095DA]"></div>
               <div className="w-2 h-2 rounded-full bg-[#00A651]"></div>
               <div className="w-2 h-2 rounded-full bg-[#E6007E]"></div>
               <div className="w-2 h-2 rounded-full bg-[#FDB913]"></div>
             </div>
-            <div className="hidden sm:block">
-              <div className="font-bold text-gray-900 text-lg">BOCRA</div>
-              <div className="text-xs text-gray-600">Communications Regulatory Authority</div>
+            <div>
+              <div className="font-bold text-gray-900 text-base sm:text-lg">BOCRA</div>
+              <div className="text-xs text-gray-600 hidden sm:block">Communications Regulatory Authority</div>
             </div>
           </Link>
 
@@ -58,6 +58,7 @@ export function Header() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
+            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

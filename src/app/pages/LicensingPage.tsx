@@ -82,26 +82,26 @@ export function LicensingPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12">
+      <div className="min-h-screen bg-gray-50 py-8 sm:py-12">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-lg shadow-md p-8 text-center">
+          <div className="bg-white rounded-lg shadow-md p-6 sm:p-8 text-center">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle2 size={32} className="text-green-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Application Submitted Successfully</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Application Submitted Successfully</h2>
+            <p className="text-sm sm:text-base text-gray-600 mb-6">
               Your license application has been received and is under review.
             </p>
             
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 sm:p-6 mb-6">
               <p className="text-sm text-gray-600 mb-2">Your Application Tracking ID</p>
-              <p className="text-2xl font-bold text-[#0095DA] mb-2">{trackingId}</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xl sm:text-2xl font-bold text-[#0095DA] mb-2 break-all">{trackingId}</p>
+              <p className="text-xs sm:text-sm text-gray-600">
                 Please save this ID to track your application status
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <a
                 href="/dashboard"
                 className="block w-full bg-[#0095DA] text-white px-6 py-3 rounded-md font-medium hover:bg-[#0077B3] transition-colors"
@@ -122,24 +122,24 @@ export function LicensingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-50 py-8 sm:py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">License Application</h1>
-          <p className="text-gray-600">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">License Application</h1>
+          <p className="text-sm sm:text-base text-gray-600">
             Apply for telecommunications, broadcasting, or spectrum licenses
           </p>
         </div>
 
         {/* Progress Indicator */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6">
           <div className="flex items-center justify-between">
             {steps.map((step, index) => (
               <div key={step.number} className="flex items-center flex-1">
                 <div className="flex flex-col items-center flex-1">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center font-medium transition-colors ${
+                    className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base font-medium transition-colors ${
                       currentStep >= step.number
                         ? 'bg-[#00A651] text-white'
                         : 'bg-gray-200 text-gray-600'
@@ -148,13 +148,13 @@ export function LicensingPage() {
                     {step.number}
                   </div>
                   <div className="text-center mt-2">
-                    <p className="text-sm font-medium text-gray-900">{step.title}</p>
-                    <p className="text-xs text-gray-500 hidden sm:block">{step.description}</p>
+                    <p className="text-xs sm:text-sm font-medium text-gray-900">{step.title}</p>
+                    <p className="text-xs text-gray-500 hidden md:block">{step.description}</p>
                   </div>
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`h-1 flex-1 mx-4 transition-colors ${
+                    className={`h-1 flex-1 mx-2 sm:mx-4 transition-colors ${
                       currentStep > step.number ? 'bg-[#00A651]' : 'bg-gray-200'
                     }`}
                   />
@@ -174,7 +174,7 @@ export function LicensingPage() {
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 md:p-8">
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8">
           {/* Step 1: Company Details */}
           {currentStep === 1 && (
             <div className="space-y-6">
