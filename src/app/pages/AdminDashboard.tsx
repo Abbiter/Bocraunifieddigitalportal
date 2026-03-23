@@ -1,13 +1,54 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Search, Filter, RefreshCw, Download, AlertCircle, TrendingUp, Users, FileCheck } from 'lucide-react';
 import { StatusBadge } from '../components/StatusBadge';
-import { mockComplaints, mockLicenseApplications } from '../data/mockData';
+import { getAllComplaints, getAllLicenses, updateComplaintStatus, updateLicenseStatus } from '../utils/api';
+import { Complaint, LicenseApplication } from '../types';
 
 export function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [activeTab, setActiveTab] = useState<'complaints' | 'licenses'>('complaints');
+  const [complaints, setComplaints] = useState<Complaint[]>([]);
+  const [licenses, setLicenses] = useState<LicenseApplication[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const loadData = async () => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const [complaintsData, licensesData] = await Promise.all([
+        getAllComplaints(),
+        getAllLicenses(),
+      ]);
+      setComplaints(complaintsData);
+      setLicenses(licensesData);
+    } catch (err) {
+      console.error('Error loading admin dashboard data:', err);
+      setError('Failed to load dashboard data. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const handleStatusUpdate = async (id: string, status: string, type: 'complaint' | 'license') => {
+    try {
+      if (type === 'complaint') {
+        await updateComplaintStatus(id, status);
+      } else {
+        await updateLicenseStatus(id, status);
+      }
+      await loadData(); // Reload data after update
+    } catch (err) {
+      console.error('Error updating status:', err);
+      setError('Failed to update status. Please try again.');
+    }
+  };
 
   // Chart data
   const complaintsData = [
@@ -33,14 +74,14 @@ export function AdminDashboard() {
     { week: 'Week 4', avgDays: 1.9 },
   ];
 
-  const filteredComplaints = mockComplaints.filter(complaint => {
+  const filteredComplaints = complaints.filter(complaint => {
     const matchesSearch = complaint.trackingId.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          complaint.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterStatus === 'all' || complaint.status.toLowerCase() === filterStatus.toLowerCase();
     return matchesSearch && matchesFilter;
   });
 
-  const filteredApplications = mockLicenseApplications.filter(app => {
+  const filteredApplications = licenses.filter(app => {
     const matchesSearch = app.trackingId.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          app.companyName.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterStatus === 'all' || app.status.toLowerCase() === filterStatus.toLowerCase();
@@ -54,13 +95,24 @@ export function AdminDashboard() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
             <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-              <RefreshCw size={16} />
+            <button 
+              onClick={loadData}
+              disabled={isLoading}
+              className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+            >
+              <RefreshCw size={16} className={isLoading ? 'animate-spin' : ''} />
               Refresh Data
             </button>
           </div>
           <p className="text-gray-600">Monitor and manage regulatory activities</p>
         </div>
+
+        {/* Error Alert */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <p className="text-sm text-red-700">{error}</p>
+          </div>
+        )}
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -68,7 +120,7 @@ export function AdminDashboard() {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <p className="text-gray-600 text-sm mb-1">Total Complaints</p>
-                <p className="text-3xl font-bold text-[#003366]">342</p>
+                <p className="text-3xl font-bold text-[#003366]">{complaints.length}</p>
               </div>
               <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
                 <AlertCircle size={24} className="text-[#003366]" />
@@ -195,21 +247,21 @@ export function AdminDashboard() {
                   onClick={() => setActiveTab('complaints')}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                     activeTab === 'complaints'
-                      ? 'bg-[#003366] text-white'
+                      ? 'bg-[#E6007E] text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  Complaints ({mockComplaints.length})
+                  Complaints
                 </button>
                 <button
                   onClick={() => setActiveTab('licenses')}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                     activeTab === 'licenses'
-                      ? 'bg-[#003366] text-white'
+                      ? 'bg-[#00A651] text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  License Applications ({mockLicenseApplications.length})
+                  License Applications ({licenses.length})
                 </button>
               </div>
             </div>

@@ -1,11 +1,23 @@
 import { useState } from 'react';
 import { CheckCircle2, Upload, ArrowLeft, ArrowRight } from 'lucide-react';
-import { licenseTypes } from '../data/mockData';
+import { submitLicense } from '../utils/api';
+
+// Static data that doesn't need backend
+const licenseTypes = [
+  'Internet Service Provider',
+  'Telecommunications Operator',
+  'Broadcasting License',
+  'Spectrum License',
+  'Value Added Services',
+  'Infrastructure Provider',
+];
 
 export function LicensingPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [trackingId, setTrackingId] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     companyName: '',
     registrationNumber: '',
@@ -35,11 +47,31 @@ export function LicensingPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newTrackingId = `LIC-2026-${Math.floor(Math.random() * 900000 + 100000)}`;
-    setTrackingId(newTrackingId);
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      const licenseData = {
+        companyName: formData.companyName,
+        registrationNumber: formData.registrationNumber,
+        contactPerson: formData.contactPerson,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        licenseType: formData.licenseType,
+      };
+
+      const result = await submitLicense(licenseData);
+      setTrackingId(result.trackingId);
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Error submitting license application:', err);
+      setError('Failed to submit license application. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const steps = [
@@ -63,40 +95,22 @@ export function LicensingPage() {
             
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
               <p className="text-sm text-gray-600 mb-2">Your Application Tracking ID</p>
-              <p className="text-2xl font-bold text-[#003366] mb-2">{trackingId}</p>
+              <p className="text-2xl font-bold text-[#0095DA] mb-2">{trackingId}</p>
               <p className="text-sm text-gray-600">
                 Please save this ID to track your application status
               </p>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">
-              <h3 className="font-medium text-gray-900 mb-2">Next Steps:</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 size={16} className="mt-0.5 text-green-600 flex-shrink-0" />
-                  <span>Initial review (1-2 business days)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 size={16} className="mt-0.5 text-green-600 flex-shrink-0" />
-                  <span>Technical evaluation (3-5 business days)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 size={16} className="mt-0.5 text-green-600 flex-shrink-0" />
-                  <span>Final approval and license issuance</span>
-                </li>
-              </ul>
-            </div>
-
             <div className="space-y-4">
               <a
                 href="/dashboard"
-                className="block w-full bg-[#003366] text-white px-6 py-3 rounded-md font-medium hover:bg-[#004d99] transition-colors"
+                className="block w-full bg-[#0095DA] text-white px-6 py-3 rounded-md font-medium hover:bg-[#0077B3] transition-colors"
               >
                 Go to Dashboard
               </a>
               <a
                 href="/"
-                className="block w-full bg-white text-[#003366] border border-gray-300 px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors"
+                className="block w-full bg-white text-[#0095DA] border border-gray-300 px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors"
               >
                 Return to Home
               </a>
@@ -127,7 +141,7 @@ export function LicensingPage() {
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center font-medium transition-colors ${
                       currentStep >= step.number
-                        ? 'bg-[#003366] text-white'
+                        ? 'bg-[#00A651] text-white'
                         : 'bg-gray-200 text-gray-600'
                     }`}
                   >
@@ -141,7 +155,7 @@ export function LicensingPage() {
                 {index < steps.length - 1 && (
                   <div
                     className={`h-1 flex-1 mx-4 transition-colors ${
-                      currentStep > step.number ? 'bg-[#003366]' : 'bg-gray-200'
+                      currentStep > step.number ? 'bg-[#00A651]' : 'bg-gray-200'
                     }`}
                   />
                 )}
@@ -149,6 +163,15 @@ export function LicensingPage() {
             ))}
           </div>
         </div>
+
+        {/* Error Alert */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex gap-3">
+            <div className="text-sm text-red-700">
+              <p className="font-medium">{error}</p>
+            </div>
+          </div>
+        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 md:p-8">
@@ -169,7 +192,7 @@ export function LicensingPage() {
                     required
                     value={formData.companyName}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#00A651] focus:border-transparent"
                     placeholder="Enter company name"
                   />
                 </div>
@@ -185,7 +208,7 @@ export function LicensingPage() {
                     required
                     value={formData.registrationNumber}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#00A651] focus:border-transparent"
                     placeholder="Company reg. number"
                   />
                 </div>
@@ -203,7 +226,7 @@ export function LicensingPage() {
                     required
                     value={formData.contactPerson}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#00A651] focus:border-transparent"
                     placeholder="Full name"
                   />
                 </div>
@@ -219,7 +242,7 @@ export function LicensingPage() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#00A651] focus:border-transparent"
                     placeholder="company@example.com"
                   />
                 </div>
@@ -237,7 +260,7 @@ export function LicensingPage() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#00A651] focus:border-transparent"
                     placeholder="+267 7XXX XXXX"
                   />
                 </div>
@@ -253,7 +276,7 @@ export function LicensingPage() {
                     required
                     value={formData.address}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#00A651] focus:border-transparent"
                     placeholder="Street, City"
                   />
                 </div>
@@ -276,7 +299,7 @@ export function LicensingPage() {
                   required
                   value={formData.licenseType}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#00A651] focus:border-transparent"
                 >
                   <option value="">Choose license type</option>
                   {licenseTypes.map((type) => (
@@ -319,7 +342,7 @@ export function LicensingPage() {
               <h2 className="text-xl font-bold text-gray-900">Upload Documentation</h2>
 
               <div className="space-y-4">
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-[#003366] transition-colors">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-[#00A651] transition-colors">
                   <label htmlFor="businessPlan" className="cursor-pointer">
                     <div className="flex flex-col items-center">
                       <Upload size={32} className="text-gray-400 mb-2" />
@@ -340,7 +363,7 @@ export function LicensingPage() {
                   </label>
                 </div>
 
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-[#003366] transition-colors">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-[#00A651] transition-colors">
                   <label htmlFor="financialStatements" className="cursor-pointer">
                     <div className="flex flex-col items-center">
                       <Upload size={32} className="text-gray-400 mb-2" />
@@ -361,7 +384,7 @@ export function LicensingPage() {
                   </label>
                 </div>
 
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-[#003366] transition-colors">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-[#00A651] transition-colors">
                   <label htmlFor="incorporationCert" className="cursor-pointer">
                     <div className="flex flex-col items-center">
                       <Upload size={32} className="text-gray-400 mb-2" />
@@ -402,7 +425,7 @@ export function LicensingPage() {
               <button
                 type="button"
                 onClick={() => setCurrentStep(currentStep + 1)}
-                className="flex-1 flex items-center justify-center gap-2 bg-[#003366] text-white px-6 py-3 rounded-md font-medium hover:bg-[#004d99] transition-colors ml-auto"
+                className="flex-1 flex items-center justify-center gap-2 bg-[#00A651] text-white px-6 py-3 rounded-md font-medium hover:bg-[#008A43] transition-colors ml-auto"
               >
                 Next
                 <ArrowRight size={20} />
@@ -410,9 +433,10 @@ export function LicensingPage() {
             ) : (
               <button
                 type="submit"
-                className="flex-1 bg-[#003366] text-white px-6 py-3 rounded-md font-medium hover:bg-[#004d99] transition-colors ml-auto"
+                disabled={isSubmitting}
+                className="flex-1 bg-[#00A651] text-white px-6 py-3 rounded-md font-medium hover:bg-[#008A43] transition-colors ml-auto disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Submit Application
+                {isSubmitting ? 'Submitting...' : 'Submit Application'}
               </button>
             )}
           </div>

@@ -1,11 +1,54 @@
+import { useState, useEffect } from 'react';
 import { Bell, FileText, MessageSquare, Clock, ExternalLink } from 'lucide-react';
 import { StatusBadge } from '../components/StatusBadge';
-import { mockComplaints, mockLicenseApplications } from '../data/mockData';
+import { getUserComplaints, getUserLicenses } from '../utils/api';
+import { Complaint, LicenseApplication } from '../types';
 import { Link } from 'react-router';
 
 export function UserDashboard() {
-  const recentComplaints = mockComplaints.slice(0, 3);
-  const recentApplications = mockLicenseApplications.slice(0, 2);
+  const [complaints, setComplaints] = useState<Complaint[]>([]);
+  const [licenses, setLicenses] = useState<LicenseApplication[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  // For demo purposes, using a static email. In production, get this from auth
+  const userEmail = 'user@example.com';
+
+  useEffect(() => {
+    async function loadData() {
+      setIsLoading(true);
+      setError('');
+      try {
+        const [complaintsData, licensesData] = await Promise.all([
+          getUserComplaints(userEmail),
+          getUserLicenses(userEmail),
+        ]);
+        setComplaints(complaintsData);
+        setLicenses(licensesData);
+      } catch (err) {
+        console.error('Error loading dashboard data:', err);
+        setError('Failed to load dashboard data. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadData();
+  }, [userEmail]);
+
+  const recentComplaints = complaints.slice(0, 3);
+  const recentApplications = licenses.slice(0, 2);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-gray-600">Loading...</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -16,20 +59,27 @@ export function UserDashboard() {
           <p className="text-gray-600">Track and manage your submissions</p>
         </div>
 
+        {/* Error Alert */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <p className="text-sm text-red-700">{error}</p>
+          </div>
+        )}
+
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-gray-600 text-sm mb-1">Active Complaints</p>
-                <p className="text-3xl font-bold text-[#003366]">{mockComplaints.filter(c => c.status !== 'Resolved').length}</p>
+                <p className="text-3xl font-bold text-[#E6007E]">{complaints.filter(c => c.status !== 'Resolved').length}</p>
               </div>
               <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
-                <MessageSquare size={24} className="text-[#003366]" />
+                <MessageSquare size={24} className="text-[#E6007E]" />
               </div>
             </div>
             <div className="mt-4">
-              <Link to="/complaints" className="text-sm text-[#003366] hover:underline flex items-center gap-1">
+              <Link to="/complaints" className="text-sm text-[#E6007E] hover:underline flex items-center gap-1">
                 Submit new complaint
                 <ExternalLink size={14} />
               </Link>
@@ -40,14 +90,14 @@ export function UserDashboard() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-gray-600 text-sm mb-1">License Applications</p>
-                <p className="text-3xl font-bold text-[#003366]">{mockLicenseApplications.length}</p>
+                <p className="text-3xl font-bold text-[#00A651]">{licenses.length}</p>
               </div>
               <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
-                <FileText size={24} className="text-green-600" />
+                <FileText size={24} className="text-[#00A651]" />
               </div>
             </div>
             <div className="mt-4">
-              <Link to="/licensing" className="text-sm text-[#003366] hover:underline flex items-center gap-1">
+              <Link to="/licensing" className="text-sm text-[#00A651] hover:underline flex items-center gap-1">
                 New application
                 <ExternalLink size={14} />
               </Link>
@@ -58,10 +108,10 @@ export function UserDashboard() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-gray-600 text-sm mb-1">Notifications</p>
-                <p className="text-3xl font-bold text-[#003366]">3</p>
+                <p className="text-3xl font-bold text-[#FDB913]">3</p>
               </div>
               <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center">
-                <Bell size={24} className="text-orange-600" />
+                <Bell size={24} className="text-[#FDB913]" />
               </div>
             </div>
             <div className="mt-4">
@@ -75,7 +125,7 @@ export function UserDashboard() {
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-gray-900">My Complaints</h2>
-              <Link to="/tracking" className="text-sm text-[#003366] hover:underline">
+              <Link to="/tracking" className="text-sm text-[#E6007E] hover:underline">
                 View all
               </Link>
             </div>
@@ -134,7 +184,7 @@ export function UserDashboard() {
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-gray-900">License Applications</h2>
-              <Link to="/licensing" className="text-sm text-[#003366] hover:underline">
+              <Link to="/licensing" className="text-sm text-[#00A651] hover:underline">
                 New application
               </Link>
             </div>

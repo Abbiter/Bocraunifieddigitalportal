@@ -1,10 +1,30 @@
 import { useState } from 'react';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
-import { serviceProviders, complaintCategories } from '../data/mockData';
+import { submitComplaint } from '../utils/api';
+
+// Static data that doesn't need backend
+const serviceProviders = [
+  'BTC Mobile',
+  'Orange Botswana',
+  'Mascom',
+  'Other',
+];
+
+const complaintCategories = [
+  'Network Quality',
+  'Service Interruption',
+  'Billing Dispute',
+  'Customer Service',
+  'Fraud',
+  'Contract Issues',
+  'Other',
+];
 
 export function ComplaintsPage() {
   const [submitted, setSubmitted] = useState(false);
   const [trackingId, setTrackingId] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,12 +34,21 @@ export function ComplaintsPage() {
     description: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Generate tracking ID
-    const newTrackingId = `COMP-2026-${Math.floor(Math.random() * 900000 + 100000)}`;
-    setTrackingId(newTrackingId);
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      const result = await submitComplaint(formData);
+      setTrackingId(result.trackingId);
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Error submitting complaint:', err);
+      setError('Failed to submit complaint. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -103,6 +132,16 @@ export function ComplaintsPage() {
             </ul>
           </div>
         </div>
+
+        {/* Error Alert */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex gap-3">
+            <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
+            <div className="text-sm text-red-700">
+              <p className="font-medium">{error}</p>
+            </div>
+          </div>
+        )}
 
         {/* Complaint Form */}
         <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 md:p-8 space-y-6">
@@ -221,9 +260,10 @@ export function ComplaintsPage() {
           <div className="flex gap-4 pt-4">
             <button
               type="submit"
-              className="flex-1 bg-[#0095DA] text-white px-6 py-3 rounded-md font-medium hover:bg-[#0077B3] transition-colors"
+              disabled={isSubmitting}
+              className="flex-1 bg-[#0095DA] text-white px-6 py-3 rounded-md font-medium hover:bg-[#0077B3] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Submit Complaint
+              {isSubmitting ? 'Submitting...' : 'Submit Complaint'}
             </button>
             <button
               type="button"

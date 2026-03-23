@@ -143,13 +143,13 @@ export function ServicesPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center px-8 py-3 bg-[#003366] text-white rounded-md font-medium hover:bg-[#004d99] transition-colors"
+              className="inline-flex items-center justify-center px-8 py-3 bg-[#0095DA] text-white rounded-md font-medium hover:bg-[#0077B3] transition-colors"
             >
               Contact Support
             </Link>
             <Link
               to="/dashboard"
-              className="inline-flex items-center justify-center px-8 py-3 bg-white border-2 border-[#003366] text-[#003366] rounded-md font-medium hover:bg-gray-50 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-3 bg-white border-2 border-[#0095DA] text-[#0095DA] rounded-md font-medium hover:bg-gray-50 transition-colors"
             >
               Access Dashboard
             </Link>

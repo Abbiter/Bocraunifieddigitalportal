@@ -1,8 +1,35 @@
+import { useState, useEffect } from 'react';
 import { FileText, MessageSquare, Search, Smartphone, CheckCircle, Signal, FileCheck, Clock } from 'lucide-react';
 import { QuickAccessCard } from '../components/QuickAccessCard';
 import { StatCard } from '../components/StatCard';
+import { getStatistics } from '../utils/api';
+import { Statistic } from '../types';
 
 export function LandingPage() {
+  const [statistics, setStatistics] = useState<Statistic[]>([]);
+  const [isLoadingStats, setIsLoadingStats] = useState(true);
+
+  useEffect(() => {
+    async function loadStatistics() {
+      try {
+        const stats = await getStatistics();
+        setStatistics(stats);
+      } catch (error) {
+        console.error('Error loading statistics:', error);
+        // Use fallback statistics if API fails
+        setStatistics([
+          { label: 'Complaints Resolved', value: '0', icon: 'CheckCircle' },
+          { label: 'Network Coverage', value: '96.8%', icon: 'Signal' },
+          { label: 'Active Licenses', value: '0', icon: 'FileCheck' },
+          { label: 'Avg Response Time', value: '2.3 days', icon: 'Clock' },
+        ]);
+      } finally {
+        setIsLoadingStats(false);
+      }
+    }
+    loadStatistics();
+  }, []);
+
   const quickAccessItems = [
     {
       title: 'Submit Complaint',
@@ -32,13 +59,6 @@ export function LandingPage() {
       link: '/services',
       color: 'bg-[#0095DA]',
     },
-  ];
-
-  const statistics = [
-    { label: 'Complaints Resolved', value: '4,523', icon: CheckCircle },
-    { label: 'Network Coverage', value: '96.8%', icon: Signal },
-    { label: 'Active Licenses', value: '1,247', icon: FileCheck },
-    { label: 'Avg Response Time', value: '2.3 days', icon: Clock },
   ];
 
   return (

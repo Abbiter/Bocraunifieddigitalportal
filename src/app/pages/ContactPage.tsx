@@ -148,7 +148,7 @@ export function ContactPage() {
 
               <button
                 type="submit"
-                className="w-full bg-[#003366] text-white px-6 py-3 rounded-md font-medium hover:bg-[#004d99] transition-colors"
+                className="w-full bg-[#0095DA] text-white px-6 py-3 rounded-md font-medium hover:bg-[#0077B3] transition-colors"
               >
                 Send Message
               </button>

@@ -65,12 +65,12 @@ export function TrackingPage() {
                 value={trackingId}
                 onChange={(e) => setTrackingId(e.target.value)}
                 placeholder="Enter tracking ID (e.g., COMP-2026-001234 or LIC-2026-000456)"
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#FDB913] focus:border-transparent"
               />
             </div>
             <button
               type="submit"
-              className="px-8 py-3 bg-[#003366] text-white rounded-md font-medium hover:bg-[#004d99] transition-colors whitespace-nowrap"
+              className="px-8 py-3 bg-[#FDB913] text-white rounded-md font-medium hover:bg-[#E5A70F] transition-colors whitespace-nowrap"
             >
               Track Status
             </button>
@@ -93,7 +93,7 @@ export function TrackingPage() {
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Tracking ID</p>
-                  <p className="text-2xl font-bold text-[#003366]">{foundItem.trackingId}</p>
+                  <p className="text-2xl font-bold text-[#FDB913]">{foundItem.trackingId}</p>
                 </div>
                 <StatusBadge status={foundItem.status} />
               </div>
@@ -194,7 +194,7 @@ export function TrackingPage() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <a
                   href="/contact"
-                  className="inline-flex items-center justify-center px-6 py-2 bg-[#003366] text-white rounded-md font-medium hover:bg-[#004d99] transition-colors"
+                  className="inline-flex items-center justify-center px-6 py-2 bg-[#0095DA] text-white rounded-md font-medium hover:bg-[#0077B3] transition-colors"
                 >
                   Contact Support
                 </a>
@@ -229,7 +229,7 @@ export function TrackingPage() {
                 setSearchPerformed(false);
                 setTrackingId('');
               }}
-              className="px-6 py-2 bg-[#003366] text-white rounded-md font-medium hover:bg-[#004d99] transition-colors"
+              className="px-6 py-2 bg-[#FDB913] text-white rounded-md font-medium hover:bg-[#E5A70F] transition-colors"
             >
               Try Again
             </button>
