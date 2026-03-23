@@ -25,11 +25,14 @@ export function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#003366] rounded-md flex items-center justify-center">
-              <span className="text-white font-bold text-lg">B</span>
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 rounded-full bg-[#0095DA]"></div>
+              <div className="w-2 h-2 rounded-full bg-[#00A651]"></div>
+              <div className="w-2 h-2 rounded-full bg-[#E6007E]"></div>
+              <div className="w-2 h-2 rounded-full bg-[#FDB913]"></div>
             </div>
             <div className="hidden sm:block">
-              <div className="font-bold text-[#003366] text-lg">BOCRA</div>
+              <div className="font-bold text-gray-900 text-lg">BOCRA</div>
               <div className="text-xs text-gray-600">Communications Regulatory Authority</div>
             </div>
           </Link>
@@ -42,7 +45,7 @@ export function Header() {
                 to={link.path}
                 className={`px-4 py-2 rounded-md text-sm transition-colors ${
                   isActive(link.path)
-                    ? 'bg-[#003366] text-white'
+                    ? 'bg-[#0095DA] text-white'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
@@ -70,7 +73,7 @@ export function Header() {
                 onClick={() => setMobileMenuOpen(false)}
                 className={`block px-4 py-3 rounded-md text-sm transition-colors ${
                   isActive(link.path)
-                    ? 'bg-[#003366] text-white'
+                    ? 'bg-[#0095DA] text-white'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >

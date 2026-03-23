@@ -44,7 +44,7 @@ export function ComplaintsPage() {
             
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
               <p className="text-sm text-gray-600 mb-2">Your Tracking ID</p>
-              <p className="text-2xl font-bold text-[#003366] mb-2">{trackingId}</p>
+              <p className="text-2xl font-bold text-[#0095DA] mb-2">{trackingId}</p>
               <p className="text-sm text-gray-600">
                 Please save this ID to track your complaint status
               </p>
@@ -53,7 +53,7 @@ export function ComplaintsPage() {
             <div className="space-y-4">
               <a
                 href="/tracking"
-                className="block w-full bg-[#003366] text-white px-6 py-3 rounded-md font-medium hover:bg-[#004d99] transition-colors"
+                className="block w-full bg-[#0095DA] text-white px-6 py-3 rounded-md font-medium hover:bg-[#0077B3] transition-colors"
               >
                 Track Complaint Status
               </a>
@@ -69,7 +69,7 @@ export function ComplaintsPage() {
                     description: '',
                   });
                 }}
-                className="block w-full bg-white text-[#003366] border border-gray-300 px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors"
+                className="block w-full bg-white text-[#0095DA] border border-gray-300 px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors"
               >
                 Submit Another Complaint
               </button>
@@ -120,7 +120,7 @@ export function ComplaintsPage() {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#0095DA] focus:border-transparent"
                 placeholder="Enter your full name"
               />
             </div>
@@ -136,7 +136,7 @@ export function ComplaintsPage() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#0095DA] focus:border-transparent"
                 placeholder="your.email@example.com"
               />
             </div>
@@ -154,7 +154,7 @@ export function ComplaintsPage() {
                 required
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#0095DA] focus:border-transparent"
                 placeholder="+267 7XXX XXXX"
               />
             </div>
@@ -169,7 +169,7 @@ export function ComplaintsPage() {
                 required
                 value={formData.serviceProvider}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#0095DA] focus:border-transparent"
               >
                 <option value="">Select provider</option>
                 {serviceProviders.map((provider) => (
@@ -191,7 +191,7 @@ export function ComplaintsPage() {
               required
               value={formData.category}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#0095DA] focus:border-transparent"
             >
               <option value="">Select category</option>
               {complaintCategories.map((category) => (
@@ -213,7 +213,7 @@ export function ComplaintsPage() {
               value={formData.description}
               onChange={handleChange}
               rows={6}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#003366] focus:border-transparent resize-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#0095DA] focus:border-transparent resize-none"
               placeholder="Provide detailed information about your complaint, including dates, locations, and any relevant reference numbers..."
             />
           </div>
@@ -221,7 +221,7 @@ export function ComplaintsPage() {
           <div className="flex gap-4 pt-4">
             <button
               type="submit"
-              className="flex-1 bg-[#003366] text-white px-6 py-3 rounded-md font-medium hover:bg-[#004d99] transition-colors"
+              className="flex-1 bg-[#0095DA] text-white px-6 py-3 rounded-md font-medium hover:bg-[#0077B3] transition-colors"
             >
               Submit Complaint
             </button>
