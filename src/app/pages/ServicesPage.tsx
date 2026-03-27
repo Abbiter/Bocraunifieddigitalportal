@@ -1,12 +1,22 @@
-import { FileCheck, MessageSquare, BarChart3, Shield, Radio, Smartphone, ArrowRight } from 'lucide-react';
+import {
+  FileCheck,
+  MessageSquare,
+  BarChart3,
+  Shield,
+  Radio,
+  Smartphone,
+  ArrowRight,
+} from 'lucide-react';
 import { Link } from 'react-router';
+import heroImg from '../assets/image.jpg';
 
 export function ServicesPage() {
   const services = [
     {
       title: 'Licensing Services',
       icon: FileCheck,
-      description: 'Apply for and manage telecommunications, broadcasting, and spectrum licenses.',
+      description:
+        'Apply for and manage telecommunications, broadcasting, and spectrum licenses.',
       features: [
         'Online application submission',
         'Real-time status tracking',
@@ -14,12 +24,12 @@ export function ServicesPage() {
         'Automated renewal reminders',
       ],
       link: '/licensing',
-      color: 'bg-blue-600',
     },
     {
       title: 'Complaint Resolution',
       icon: MessageSquare,
-      description: 'Submit complaints about service providers and track resolution progress.',
+      description:
+        'Submit complaints about service providers and track resolution progress.',
       features: [
         '24/7 complaint submission',
         'Transparent resolution timeline',
@@ -27,12 +37,12 @@ export function ServicesPage() {
         'Direct communication with staff',
       ],
       link: '/complaints',
-      color: 'bg-green-600',
     },
     {
       title: 'Quality of Service Monitoring',
       icon: BarChart3,
-      description: 'Access real-time data on network performance and service quality metrics.',
+      description:
+        'Access real-time data on network performance and service quality metrics.',
       features: [
         'Coverage maps and analytics',
         'Network performance reports',
@@ -40,25 +50,25 @@ export function ServicesPage() {
         'Comparative provider analysis',
       ],
       link: '/dashboard',
-      color: 'bg-purple-600',
     },
     {
       title: 'Regulatory Compliance',
       icon: Shield,
-      description: 'Stay informed about regulatory requirements and compliance standards.',
+      description:
+        'Stay informed about regulatory requirements and compliance standards.',
       features: [
         'Regulatory guidelines',
         'Compliance checklists',
         'Industry standards',
         'Legal framework documents',
       ],
-      link: '/services',
-      color: 'bg-orange-600',
+      link: '/compliance',
     },
     {
       title: 'Spectrum Management',
       icon: Radio,
-      description: 'Apply for spectrum licenses and access frequency allocation information.',
+      description:
+        'Apply for spectrum licenses and access frequency allocation information.',
       features: [
         'Spectrum availability checker',
         'Frequency allocation database',
@@ -66,63 +76,85 @@ export function ServicesPage() {
         'Technical coordination',
       ],
       link: '/licensing',
-      color: 'bg-indigo-600',
     },
     {
       title: 'Device Registration',
       icon: Smartphone,
-      description: 'Register and verify telecommunications devices for compliance.',
+      description:
+        'Register and verify telecommunications devices for compliance.',
       features: [
         'Device type approval',
         'IMEI registration',
         'Compliance verification',
         'Stolen device reporting',
       ],
-      link: '/services',
-      color: 'bg-teal-600',
+      link: '/Deviceregistration',
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-[#003366] to-[#004d99] text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold mb-4">Regulatory Services</h1>
-          <p className="text-xl text-blue-100 max-w-3xl">
+    <div className="min-h-screen bg-gradient-to-b from-[#f5faff] to-white">
+
+      {/* HERO */}
+      <section
+        className="relative h-[520px] flex items-center text-white bg-cover bg-center"
+        style={{ backgroundImage: `url(${heroImg})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-[#003366]/85 via-[#0077B3]/70 to-[#0095DA]/50" />
+
+        <div className="relative max-w-7xl mx-auto px-6">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Regulatory Services
+          </h1>
+          <p className="text-lg md:text-xl text-blue-100 max-w-2xl">
             Comprehensive digital services for telecommunications and broadcasting regulation in Botswana
           </p>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* SERVICES */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+
+        <div className="grid md:grid-cols-2 gap-6">
+
           {services.map((service) => (
             <div
               key={service.title}
-              className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+              className="bg-white/70 backdrop-blur-xl border border-white/40 shadow-md p-6 hover:shadow-lg transition"
             >
-              <div className={`${service.color} p-6`}>
-                <service.icon size={40} className="text-white" />
+              {/* Top */}
+              <div className="flex items-start gap-4">
+                <div className="bg-[#0095DA] p-3 rounded-md">
+                  <service.icon size={26} className="text-white" />
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {service.description}
+                  </p>
+                </div>
               </div>
-              
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
-                <p className="text-gray-600 mb-4 leading-relaxed">{service.description}</p>
-                
-                <ul className="space-y-2 mb-6">
-                  {service.features.map((feature, index) => (
-                    <li key={index} className="flex items-start gap-2 text-sm text-gray-700">
-                      <ArrowRight size={16} className="text-[#003366] flex-shrink-0 mt-0.5" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                
+
+              {/* Features */}
+              <div className="flex flex-wrap gap-2 mt-4">
+                {service.features.map((f, i) => (
+                  <span
+                    key={i}
+                    className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+                  >
+                    {f}
+                  </span>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className="mt-5">
                 <Link
                   to={service.link}
-                  className="inline-flex items-center gap-2 text-[#003366] font-medium hover:underline"
+                  className="inline-flex items-center gap-2 text-[#0077B3] font-medium hover:text-[#0095DA]"
                 >
                   Learn more
                   <ArrowRight size={16} />
@@ -133,29 +165,44 @@ export function ServicesPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-white border-y border-gray-200 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Need Assistance?</h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Our support team is ready to help you navigate our services and answer your questions
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center px-8 py-3 bg-[#0095DA] text-white rounded-md font-medium hover:bg-[#0077B3] transition-colors"
-            >
-              Contact Support
-            </Link>
-            <Link
-              to="/dashboard"
-              className="inline-flex items-center justify-center px-8 py-3 bg-white border-2 border-[#0095DA] text-[#0095DA] rounded-md font-medium hover:bg-gray-50 transition-colors"
-            >
-              Access Dashboard
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* CTA */}
+<section className="relative w-full overflow-hidden">
+  {/* Background image */}
+  <div
+    className="absolute inset-0 bg-cover bg-center"
+    style={{ backgroundImage: `url(${heroImg})` }}
+  />
+
+  {/* Gradient overlay */}
+  <div className="absolute inset-0 bg-gradient-to-r from-[#003366]/90 via-[#0077B3]/80 to-[#003366]/90" />
+
+  {/* Content */}
+  <div className="relative max-w-7xl mx-auto px-6 py-16 text-white text-center">
+    <h2 className="text-3xl font-bold mb-3">
+      Need Assistance?
+    </h2>
+
+    <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+      Our support team is available to help you navigate regulatory requirements and platform features
+    </p>
+
+    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <Link
+        to="/contact"
+        className="bg-white text-[#003366] px-6 py-3 font-medium hover:bg-gray-100"
+      >
+        Contact Support
+      </Link>
+
+      <Link
+        to="/services"
+        className="border border-white px-6 py-3 font-medium hover:bg-white hover:text-[#003366]"
+      >
+        View All Services
+      </Link>
+    </div>
+  </div>
+</section>
     </div>
   );
 }

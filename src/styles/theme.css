@@ -184,4 +184,55 @@
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
   }
+
+ @keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeUp {
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+/* ── Value Cards ──────────────────────────── */
+.value-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.value-card .value-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.value-card:hover .value-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+.value-card .value-icon {
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+.value-card:hover .value-icon {
+  transform: translateY(-8px);
+  opacity: 0.15;
+}
+.value-card .value-title {
+  transition: color 0.25s ease;
+}
+.value-card:hover .value-title {
+  color: white;
+}
+
 }
